@@ -1,0 +1,57 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+
+
+#since the target column is continuous we cannot apply classification model
+#hence we have to apply the regressin modal 
+
+adverts<-read.csv(file.choose(),head=TRUE,sep=",")
+```
+
+```{r}
+pairs(adverts)
+
+```
+
+```{r}
+plot(adverts$ marketing_total,adverts$revenues,ylab="Revenues",xlab = "Marketing total",main = "Rvenues and Marketing")
+
+
+```
+```{r}
+#function we use for linear regression is : lm
+#model<-lm(y~x,data=dataset)
+model<-lm(revenues~marketing_total,data = adverts)
+```
+```{r}
+model
+# y=mx+c
+#c=32.00670
+# m=slope=0.05193
+# for every 1000rs increase in the marketing value their would be 51.93 rs increase in the revenue
+#marketing expenditure =0 when 32007
+```
+```{r}
+#Equation:
+#Revenue =32.0067+(0.05193*marketing_total)
+# residuals=Predicted value - actual value(error)
+```
+

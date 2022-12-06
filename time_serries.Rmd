@@ -1,0 +1,191 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+sales<- c(18,33,41,7,34,35,24,25,24,21,25,20,22,31,40,29,25,21,22,54,31,25,26,35)
+tsales<-ts(sales,start=c(2003,1),frequency=12)
+tsales
+```
+```{r}
+plot(tsales)
+```
+```{r}
+start(tsales)
+```
+
+```{r}
+end(tsales)
+```
+
+```{r}
+frequency((tsales))
+```
+
+```{r}
+tsales.subset<-window(tsales, start=c(2003,5),end=c(2004,6))
+tsales.subset
+```
+
+```{r}
+time series analysis is a forecasting technique and can be additive and multiplicative
+4 components :
+  1.Trend(Tt) -> either upward or downward over a period of time
+  2.Seasonal -> used to measure the seasonality index (increases based on the seasonal )
+  3.Cyclical -> cyclical fluctuation have repeatative pattern with a time between repeatition of more than               a year whereas incase of seasonality the fluctutaion are observed within a calender year and           are driven by factors such as festivals and customs that exist in society
+```
+
+
+
+```{r}
+4.Irregular  -> white noise or random uncorrealted changes that follow a normal distribution with mean               value of zero and constant variance
+```
+
+
+```{r}
+
+Additive:
+  Yt= Tt + St+ Ct+ It
+Multiplicative:
+  Yt= Tt * St*Ct*It
+
+The additive model is appropriate if the seasonal component remains constant about the label(mean) and does not vary with the abel of the time series
+
+while the multiplicative model is appropriate if the seasonal variation is correlated with label
+
+
+```
+
+```{r}
+Measures to find the accuracy :
+  1. Mean absolute error:  Summation( actual value - the forecasted value / no of observation)()
+```
+
+```{r}
+Mean value % error:
+  1MAPE : 1/n Summation (mod(actual value at time t - forecasted value at time t )/the actual value at t)*100%
+```
+
+
+```{r}
+Mean sqaure error : depends on time series data
+RMSE : root of MSE
+```
+
+```{r}
+Forecasting techiques:
+  
+1. Simple ----Moving avg 
+          ----Exponential
+
+Regression ------ARMA (Auto regressive  moving avg)
+          ------ARIMA (Auto regressive Integrated moving avg)
+          -----MA(Moving avg)
+          -----AR (Auto regressive)
+          -----ARIMAX (Auto regressive Integrated moving avg with X)
+```
+
+
+```{r}
+
+Moving avg method: 
+  
+  Ft+1 = 1/N summation (t to k=t+1-N ) Yk  ------- Simple avg
+
+Weighted avg:
+  
+  
+
+
+```
+
+
+```{r}
+library(forecast)
+```
+
+```{r}
+opar<- par(no.readonly = TRUE)
+par(mfrow= c(2,2))
+ylim <-c(min(Nile),max(Nile))
+plot(Nile,min="Raw time series")
+plot(ma(Nile,3),main="Simple Moving averages(k=3)",ylim=ylim)
+plot(ma(Nile,7),main="Simple Moving average(k=7)",ylim=ylim)
+par(opar)
+opar
+```
+
+```{r}
+
+install.packages("[https://cran.r-project.org/src/contrib/Archive/rlang/rlang_0.1.6.tar.gz]", repo=NULL, type="source")
+
+```
+```{r}
+plot(AirPassengers)
+```
+```{r}
+lAirPassengers <- log(AirPassengers)
+```
+
+```{r}
+plot(lAirPassengers,ylab="log(AirPAssengers)")
+```
+
+```{r}
+fit<-stl(lAirPassengers,s.window = "period")
+plot(fit)
+```
+
+```{r}
+fit$time.series
+```
+
+```{r}
+exp(fit$time.series)
+```
+```{r}
+par(mfrow = c(2,1))
+library(forecast)
+```
+
+```{r}
+monthplot(AirPassengers,xlab=" ",ylab = " ")
+seasonplot(AirPassengers,year.labels="TRUE",main=" ")
+```
+```{r}
+single exponential smoothing : problem : will not consider when trend is involved
+double exponential smoothing (Holt Method) : considers trend component
+
+
+level(Intercept) Lt:
+   Lt = alpha *Yt +(1-alpha ) * Ft
+
+
+
+```
+
+
+```{r}
+#library(forecast)
+fit<- ets (nhtemp,model="ANN")
+fit
+forecast(fit,L)
+plot(forecast(fit,L), xLab="Year" , ylab= expression(paste("Temperatures(",degree*F,")",)),main="New Heaven Annual mean temperature")
+accuracy(fit)
+```
+
